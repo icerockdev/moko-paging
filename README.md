@@ -1,5 +1,5 @@
 ![moko-paging](img/logo.png)  
-[![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0) [![Download](https://api.bintray.com/packages/icerockdev/moko/moko-paging/images/download.svg) ](https://bintray.com/icerockdev/moko/moko-paging/_latestVersion) ![kotlin-version](https://img.shields.io/badge/kotlin-1.3.61-orange)
+[![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0) [![Download](https://api.bintray.com/packages/icerockdev/moko/moko-paging/images/download.svg) ](https://bintray.com/icerockdev/moko/moko-paging/_latestVersion) ![kotlin-version](https://img.shields.io/badge/kotlin-1.3.70-orange)
 
 # Mobile Kotlin paging
 This is a Kotlin MultiPlatform library that contains pagination logic for kotlin multiplatform
@@ -19,13 +19,15 @@ This is a Kotlin MultiPlatform library that contains pagination logic for kotlin
 - **TODO** TODO.
 
 ## Requirements
-- Gradle version 5.4.1+
+- Gradle version 5.6.4+
 - Android API 16+
 - iOS version 9.0+
 
 ## Versions
 - kotlin 1.3.61
   - 0.1.0
+- kotlin 1.3.70
+  - 0.2.0
 
 ## Installation
 root build.gradle  
@@ -40,13 +42,8 @@ allprojects {
 project build.gradle
 ```groovy
 dependencies {
-    commonMainApi("dev.icerock.moko:paging:0.1.0")
+    commonMainApi("dev.icerock.moko:paging:0.2.0")
 }
-```
-
-settings.gradle  
-```groovy
-enableFeaturePreview("GRADLE_METADATA")
 ```
 
 ## Usage
@@ -58,7 +55,7 @@ Please see more examples in the [sample directory](sample).
 ## Set Up Locally 
 - The [paging directory](paging) contains the `paging` library;
 - The [sample directory](sample) contains sample apps for Android and iOS; plus the mpp-library connected to the apps;
-- For local testing a library use the `:paging:publishToMavenLocal` gradle task - so that sample apps use the locally published version.
+- For local testing a library use the `./publishToMavenLocal.sh` script - so that sample apps use the locally published version.
 
 ## Contributing
 All development (both new features and bug fixes) is performed in the `develop` branch. This way `master` always contains the sources of the most recently released version. Please send PRs with bug fixes to the `develop` branch. Documentation fixes in the markdown files are an exception to this rule. They are updated directly in `master`.

@@ -9,11 +9,11 @@ object Versions {
         const val minSdk = 16
     }
 
-    const val kotlin = "1.3.61"
-    const val mokoUnits = "0.2.2"
+    const val kotlin = "1.3.70"
+    const val mokoUnits = "0.3.0"
 
     object Plugins {
-        const val android = "3.5.2"
+        const val android = "3.6.1"
 
         const val kotlin = Versions.kotlin
         const val mokoUnits = Versions.mokoUnits
@@ -27,9 +27,9 @@ object Versions {
         }
 
         object MultiPlatform {
-            const val coroutines = "1.3.3"
-            const val mokoPaging = "0.1.0"
-            const val mokoMvvm = "0.4.0"
+            const val coroutines = "1.3.4"
+            const val mokoPaging = "0.2.0"
+            const val mokoMvvm = "0.6.0"
             const val mokoUnits = Versions.mokoUnits
         }
     }
