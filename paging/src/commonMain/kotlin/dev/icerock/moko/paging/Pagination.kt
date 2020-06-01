@@ -69,14 +69,15 @@ class Pagination<Item>(
                     val existsItem = currentList.firstOrNull { comparator.compare(item, it) == 0 }
                     existsItem == null
                 }
+                // append new items to current list
+                val newList = newItems.plus(currentList)
                 // mark end of list if no new items
                 if (newItems.isEmpty()) {
                     mEndOfList.value = true
+                } else {
+                    // save
+                    mStateStorage.value = newList.asState()
                 }
-                // append new items to current list
-                val newList = currentList.plus(newItems)
-                // save
-                mStateStorage.value = newList.asState()
                 // flag
                 mNextPageLoading.value = false
                 // notify
