@@ -10,6 +10,7 @@ import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.livedata.readOnly
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
 import kotlin.coroutines.CoroutineContext
 
 class Pagination<Item>(
@@ -36,17 +37,21 @@ class Pagination<Item>(
     private val mRefreshLoading = MutableLiveData(false)
     val refreshLoading = mRefreshLoading.readOnly()
 
+    private val listMutex = Mutex()
+
     fun loadFirstPage() {
         mEndOfList.value = false
         mNextPageLoading.value = false
 
         launch {
+            listMutex.lock()
             try {
                 val items: List<Item> = dataSource.loadPage(null)
                 mStateStorage.value = items.asState()
             } catch (error: Throwable) {
                 mStateStorage.value = State.Error(error)
             }
+            listMutex.unlock()
         }
     }
 
@@ -61,6 +66,7 @@ class Pagination<Item>(
         mNextPageLoading.postValue(true)
 
         launch {
+            listMutex.lock()
             try {
                 // load next page items
                 val items = dataSource.loadPage(currentList)
@@ -87,6 +93,7 @@ class Pagination<Item>(
                 // notify
                 nextPageListener(Result.failure(error))
             }
+            listMutex.unlock()
         }
     }
 
@@ -97,6 +104,7 @@ class Pagination<Item>(
         mRefreshLoading.postValue(true)
 
         launch {
+            listMutex.lock()
             try {
                 // load first page items
                 val items = dataSource.loadPage(null)
@@ -114,12 +122,17 @@ class Pagination<Item>(
                 // notify
                 refreshListener(Result.failure(error))
             }
+            listMutex.unlock()
         }
     }
 
     fun setData(items: List<Item>?) {
-        mStateStorage.value = items.asStateNullIsEmpty()
-        mEndOfList.value = false
+        launch {
+            listMutex.lock()
+            mStateStorage.value = items.asStateNullIsEmpty()
+            mEndOfList.value = false
+            listMutex.unlock()
+        }
     }
 }
 
