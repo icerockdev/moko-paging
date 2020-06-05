@@ -40,22 +40,32 @@ class Pagination<Item>(
     private val listMutex = Mutex()
 
     fun loadFirstPage() {
-        mEndOfList.value = false
-        mNextPageLoading.value = false
-
         launch {
-            listMutex.lock()
-            try {
-                val items: List<Item> = dataSource.loadPage(null)
-                mStateStorage.value = items.asState()
-            } catch (error: Throwable) {
-                mStateStorage.value = State.Error(error)
-            }
-            listMutex.unlock()
+            loadFirstPageSuspend()
         }
     }
 
+    suspend fun loadFirstPageSuspend() {
+        mEndOfList.postValue(false)
+        mNextPageLoading.postValue(false)
+
+        listMutex.lock()
+        try {
+            val items: List<Item> = dataSource.loadPage(null)
+            mStateStorage.value = items.asState()
+        } catch (error: Throwable) {
+            mStateStorage.value = State.Error(error)
+        }
+        listMutex.unlock()
+    }
+
     fun loadNextPage() {
+        launch {
+            loadNextPageSuspend()
+        }
+    }
+
+    suspend fun loadNextPageSuspend() {
         if (mNextPageLoading.value) return
         if (mRefreshLoading.value) return
         if (mEndOfList.value) return
@@ -65,75 +75,81 @@ class Pagination<Item>(
 
         mNextPageLoading.postValue(true)
 
-        launch {
-            listMutex.lock()
-            try {
-                // load next page items
-                val items = dataSource.loadPage(currentList)
-                // remove already exist items
-                val newItems = items.filter { item ->
-                    val existsItem = currentList.firstOrNull { comparator.compare(item, it) == 0 }
-                    existsItem == null
-                }
-                // append new items to current list
-                val newList = newItems.plus(currentList)
-                // mark end of list if no new items
-                if (newItems.isEmpty()) {
-                    mEndOfList.value = true
-                } else {
-                    // save
-                    mStateStorage.value = newList.asState()
-                }
-                // flag
-                mNextPageLoading.value = false
-                // notify
-                nextPageListener(Result.success(newList))
-            } catch (error: Throwable) {
-                // flag
-                mNextPageLoading.value = false
-                // notify
-                nextPageListener(Result.failure(error))
+        listMutex.lock()
+        try {
+            // load next page items
+            val items = dataSource.loadPage(currentList)
+            // remove already exist items
+            val newItems = items.filter { item ->
+                val existsItem = currentList.firstOrNull { comparator.compare(item, it) == 0 }
+                existsItem == null
             }
-            listMutex.unlock()
+            // append new items to current list
+            val newList = newItems.plus(currentList)
+            // mark end of list if no new items
+            if (newItems.isEmpty()) {
+                mEndOfList.value = true
+            } else {
+                // save
+                mStateStorage.value = newList.asState()
+            }
+            // flag
+            mNextPageLoading.value = false
+            // notify
+            nextPageListener(Result.success(newList))
+        } catch (error: Throwable) {
+            // flag
+            mNextPageLoading.value = false
+            // notify
+            nextPageListener(Result.failure(error))
         }
+        listMutex.unlock()
     }
 
     fun refresh() {
+        launch {
+            refreshSuspend()
+        }
+    }
+
+    suspend fun refreshSuspend() {
         if (mNextPageLoading.value) return
         if (mRefreshLoading.value) return
 
         mRefreshLoading.postValue(true)
 
-        launch {
-            listMutex.lock()
-            try {
-                // load first page items
-                val items = dataSource.loadPage(null)
-                // save
-                mStateStorage.value = items.asState()
-                // flag
-                mEndOfList.value = false
-                mRefreshLoading.value = false
-                // notify
-                refreshListener(Result.success(items))
-            } catch (error: Throwable) {
-                mStateStorage.value = State.Error(error)
-                // flag
-                mRefreshLoading.value = false
-                // notify
-                refreshListener(Result.failure(error))
-            }
-            listMutex.unlock()
+        listMutex.lock()
+        try {
+            // load first page items
+            val items = dataSource.loadPage(null)
+            // save
+            mStateStorage.value = items.asState()
+            // flag
+            mEndOfList.value = false
+            mRefreshLoading.value = false
+            // notify
+            refreshListener(Result.success(items))
+        } catch (error: Throwable) {
+            mStateStorage.value = State.Error(error)
+            // flag
+            mRefreshLoading.value = false
+            // notify
+            refreshListener(Result.failure(error))
         }
+        listMutex.unlock()
     }
 
     fun setData(items: List<Item>?) {
         launch {
-            listMutex.lock()
-            mStateStorage.value = items.asStateNullIsEmpty()
-            mEndOfList.value = false
-            listMutex.unlock()
+            setDataSuspend(items)
         }
+    }
+
+    suspend fun setDataSuspend(items: List<Item>?) {
+        listMutex.lock()
+        mStateStorage.value = items.asStateNullIsEmpty()
+        mEndOfList.value = false
+        listMutex.unlock()
     }
 }
 
