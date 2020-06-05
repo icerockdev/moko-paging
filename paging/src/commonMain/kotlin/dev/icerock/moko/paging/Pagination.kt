@@ -46,10 +46,11 @@ class Pagination<Item>(
     }
 
     suspend fun loadFirstPageSuspend() {
+        listMutex.lock()
+
         mEndOfList.postValue(false)
         mNextPageLoading.postValue(false)
 
-        listMutex.lock()
         try {
             val items: List<Item> = dataSource.loadPage(null)
             mStateStorage.value = items.asState()
@@ -73,9 +74,10 @@ class Pagination<Item>(
         val currentList = mStateStorage.value.dataValue()
             ?: throw IllegalStateException("Try to load next page when list is empty")
 
+        listMutex.lock()
+
         mNextPageLoading.postValue(true)
 
-        listMutex.lock()
         try {
             // load next page items
             val items = dataSource.loadPage(currentList)
@@ -116,9 +118,10 @@ class Pagination<Item>(
         if (mNextPageLoading.value) return
         if (mRefreshLoading.value) return
 
+        listMutex.lock()
+
         mRefreshLoading.postValue(true)
 
-        listMutex.lock()
         try {
             // load first page items
             val items = dataSource.loadPage(null)
