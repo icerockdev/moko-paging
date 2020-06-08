@@ -28,7 +28,7 @@ object Versions {
 
         object MultiPlatform {
             const val coroutines = "1.3.4"
-            const val mokoPaging = "0.2.2"
+            const val mokoPaging = "0.3.0"
             const val mokoMvvm = "0.6.0"
             const val mokoUnits = Versions.mokoUnits
         }
