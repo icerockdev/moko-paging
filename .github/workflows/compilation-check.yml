@@ -4,9 +4,10 @@ on:
   pull_request:
     branches:
     - master
+    - develop
 
 jobs:
-  build:
+  test:
     runs-on: macOS-latest
 
     steps:
@@ -15,5 +16,5 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Check build
-      run: ./gradlew -PlibraryPublish :paging:publishToMavenLocal
+    - name: Build and test
+      run: ./gradlew -PlibraryPublish :paging:build

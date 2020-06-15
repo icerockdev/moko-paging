@@ -87,7 +87,7 @@ class Pagination<Item>(
                 existsItem == null
             }
             // append new items to current list
-            val newList = newItems.plus(currentList)
+            val newList = currentList.plus(newItems)
             // mark end of list if no new items
             if (newItems.isEmpty()) {
                 mEndOfList.value = true

@@ -29,6 +29,11 @@ dependencies {
     mppLibrary(Deps.Libs.MultiPlatform.mokoMvvm)
 
     androidLibrary(Deps.Libs.Android.appCompat)
+
+    mppTestLibrary(Deps.Libs.MultiPlatform.coroutines)
+    mppTestLibrary(Deps.Tests.kotlinTestCommon)
+    mppTestLibrary(Deps.Tests.kotlinTestCommonAnnotations)
+    mppTestLibrary(Deps.Tests.androidCoreTesting)
 }
 
 publishing {

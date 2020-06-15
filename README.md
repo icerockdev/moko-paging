@@ -16,7 +16,10 @@ This is a Kotlin MultiPlatform library that contains pagination logic for kotlin
 - [License](#license)
 
 ## Features
-- **TODO** TODO.
+- **Pagination** implements pagination logic for the data from abstract `PagedListDataSource`.
+- Managing a data loading process using **Pagination** asynchronous functions: `loadFirstPage`, `loadNextPage`,
+`refresh` or their duplicates with `suspend` modifier.
+- Observing states of **Pagination** using `LiveData` from **moko-mvvm**.
 
 ## Requirements
 - Gradle version 5.6.4+
@@ -31,6 +34,7 @@ This is a Kotlin MultiPlatform library that contains pagination logic for kotlin
   - 0.2.1
   - 0.2.2
   - 0.3.0
+  - 0.3.1
 
 ## Installation
 root build.gradle  
@@ -45,12 +49,77 @@ allprojects {
 project build.gradle
 ```groovy
 dependencies {
-    commonMainApi("dev.icerock.moko:paging:0.3.0")
+    commonMainApi("dev.icerock.moko:paging:0.3.1")
 }
 ```
 
 ## Usage
-TODO
+
+You can use **Pagination** in `commonMain` sourceset.
+
+**Pagination** creation:
+
+```kotlin
+val pagination: Pagination<Int> = Pagination(
+        parentScope = coroutineScope,
+        dataSource = LambdaPagedListDataSource { currentList ->
+            extrenalRepository.loadPage(currentList) 
+        },
+        comparator = Comparator { a: Int, b: Int ->
+            a - b
+        },
+        nextPageListener = { result: Result<List<Int>> ->
+            if (result.isSuccess) {
+                println("Next page successful loaded")
+            } else {
+                println("Next page loading failed")
+            }
+        },
+        refreshListener = { result: Result<List<Int>> ->
+            if (result.isSuccess) {
+                println("Refresh successful")
+            } else {
+                println("Refresh failed")
+            }
+        },
+        initValue = listOf(1, 2, 3)
+    )
+```
+
+Managing data loading:
+
+```kotlin
+// Loading first page
+pagination.loadFirstPage()
+
+// Loading next page
+pagination.loadNextPage()
+
+// Refreshing pagnation
+pagination.refresh()
+
+// Setting new list
+pagination.setData(itemsList)
+```
+
+Observing **Pagination** states:
+
+```kotlin
+// Observing the state of the pagination
+pagination.state.addObserver { state: State<List<ItemClass>, Throwable> -> 
+    // ...
+}
+
+// Observing the next page loading process
+pagination.nextPageLoading.addObserver { isLoading: Boolean -> 
+    // ...
+}
+
+// Observing the refresh process
+pagination.refreshLoading.addObserver { isRefreshing: Boolean -> 
+    // ...    
+}
+```
 
 ## Samples
 Please see more examples in the [sample directory](sample).
