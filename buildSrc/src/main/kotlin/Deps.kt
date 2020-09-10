@@ -6,7 +6,6 @@ object Deps {
     private const val kotlinVersion = "1.4.0"
 
     private const val androidAppCompatVersion = "1.1.0"
-    private const val materialDesignVersion = "1.0.0"
     private const val androidLifecycleVersion = "2.1.0"
     private const val androidCoreTestingVersion = "2.1.0"
     private const val recyclerViewVersion = "1.1.0"
@@ -29,12 +28,10 @@ object Deps {
     object Plugins {
         val androidApplication = GradlePlugin(id = "com.android.application")
         val androidLibrary = GradlePlugin(id = "com.android.library")
-        val kotlinJvm = GradlePlugin(id = "org.jetbrains.kotlin.jvm")
         val kotlinMultiplatform = GradlePlugin(id = "org.jetbrains.kotlin.multiplatform")
         val kotlinKapt = GradlePlugin(id = "kotlin-kapt")
         val kotlinAndroid = GradlePlugin(id = "kotlin-android")
         val kotlinAndroidExtensions = GradlePlugin(id = "kotlin-android-extensions")
-        val kotlinSerialization = GradlePlugin(id = "kotlin-serialization")
         val mavenPublish = GradlePlugin(id = "org.gradle.maven-publish")
 
         val mobileMultiplatform = GradlePlugin(id = "dev.icerock.mobile.multiplatform")
@@ -58,7 +55,6 @@ object Deps {
     object Libs {
         object Android {
             const val appCompat = "androidx.appcompat:appcompat:$androidAppCompatVersion"
-            const val material = "com.google.android.material:material:$materialDesignVersion"
             const val recyclerView = "androidx.recyclerview:recyclerview:$recyclerViewVersion"
             const val lifecycle = "androidx.lifecycle:lifecycle-extensions:$androidLifecycleVersion"
             const val swipeRefreshLayout =
