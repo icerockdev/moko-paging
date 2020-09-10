@@ -3,37 +3,29 @@
  */
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.multiplatform")
-    id("kotlin-android-extensions")
-    id("dev.icerock.mobile.multiplatform")
-    id("maven-publish")
+    plugin(Deps.Plugins.androidLibrary)
+    plugin(Deps.Plugins.kotlinMultiplatform)
+    plugin(Deps.Plugins.kotlinAndroidExtensions)
+    plugin(Deps.Plugins.mobileMultiplatform)
+    plugin(Deps.Plugins.mavenPublish)
 }
 
 group = "dev.icerock.moko"
-version = Versions.Libs.MultiPlatform.mokoPaging
-
-android {
-    compileSdkVersion(Versions.Android.compileSdk)
-
-    defaultConfig {
-        minSdkVersion(Versions.Android.minSdk)
-        targetSdkVersion(Versions.Android.targetSdk)
-    }
-}
+version = Deps.mokoPagingVersion
 
 dependencies {
-    mppLibrary(Deps.Libs.MultiPlatform.kotlinStdLib)
+    commonMainImplementation(Deps.Libs.MultiPlatform.coroutines)
+    commonMainImplementation(Deps.Libs.MultiPlatform.mokoMvvm.common)
 
-    mppLibrary(Deps.Libs.MultiPlatform.coroutines)
-    mppLibrary(Deps.Libs.MultiPlatform.mokoMvvm)
+    androidMainImplementation(Deps.Libs.Android.appCompat)
 
-    androidLibrary(Deps.Libs.Android.appCompat)
+    commonTestImplementation(Deps.Libs.Tests.kotlinTestJUnit)
+    androidTestImplementation(Deps.Libs.Tests.androidCoreTesting)
 
-    mppTestLibrary(Deps.Libs.MultiPlatform.coroutines)
-    mppTestLibrary(Deps.Tests.kotlinTestCommon)
-    mppTestLibrary(Deps.Tests.kotlinTestCommonAnnotations)
-    mppTestLibrary(Deps.Tests.androidCoreTesting)
+    // temporary fix of https://youtrack.jetbrains.com/issue/KT-41083
+    commonMainImplementation("dev.icerock.moko:resources:0.13.1")
+    commonMainImplementation("dev.icerock.moko:parcelize:0.4.0")
+    commonMainImplementation("dev.icerock.moko:graphics:0.4.0")
 }
 
 publishing {

@@ -3,79 +3,94 @@
  */
 
 object Deps {
+    private const val kotlinVersion = "1.4.0"
+
+    private const val androidAppCompatVersion = "1.1.0"
+    private const val androidLifecycleVersion = "2.1.0"
+    private const val androidCoreTestingVersion = "2.1.0"
+    private const val recyclerViewVersion = "1.1.0"
+    private const val swipeRefreshLayoutVersion = "1.1.0"
+
+    private const val detektVersion = "1.7.4"
+
+    private const val coroutinesVersion = "1.3.9"
+    private const val mokoMvvmVersion = "0.8.0"
+    private const val mokoResourcesVersion = "0.13.1"
+    private const val mokoUnitsVersion = "0.4.0"
+    const val mokoPagingVersion = "0.4.0"
+
+    object Android {
+        const val compileSdk = 28
+        const val targetSdk = 28
+        const val minSdk = 16
+    }
+
     object Plugins {
-        const val android =
-            "com.android.tools.build:gradle:${Versions.Plugins.android}"
-        const val kotlin =
-            "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.Plugins.kotlin}"
-        const val mokoUnits =
-            "dev.icerock.moko:units-generator:${Versions.Plugins.mokoUnits}"
+        val androidApplication = GradlePlugin(id = "com.android.application")
+        val androidLibrary = GradlePlugin(id = "com.android.library")
+        val kotlinMultiplatform = GradlePlugin(id = "org.jetbrains.kotlin.multiplatform")
+        val kotlinKapt = GradlePlugin(id = "kotlin-kapt")
+        val kotlinAndroid = GradlePlugin(id = "kotlin-android")
+        val kotlinAndroidExtensions = GradlePlugin(id = "kotlin-android-extensions")
+        val mavenPublish = GradlePlugin(id = "org.gradle.maven-publish")
+
+        val mobileMultiplatform = GradlePlugin(id = "dev.icerock.mobile.multiplatform")
+        val iosFramework = GradlePlugin(id = "dev.icerock.mobile.multiplatform.ios-framework")
+
+        val mokoResources = GradlePlugin(
+            id = "dev.icerock.mobile.multiplatform-resources",
+            module = "dev.icerock.moko:resources-generator:$mokoResourcesVersion"
+        )
+        val mokoUnits = GradlePlugin(
+            id = "dev.icerock.mobile.multiplatform-units",
+            module = "dev.icerock.moko:units-generator:$mokoUnitsVersion"
+        )
+
+        val detekt = GradlePlugin(
+            id = "io.gitlab.arturbosch.detekt",
+            version = detektVersion
+        )
     }
 
     object Libs {
         object Android {
-            val kotlinStdLib = AndroidLibrary(
-                name = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
-            )
-            val appCompat = AndroidLibrary(
-                name = "androidx.appcompat:appcompat:${Versions.Libs.Android.appCompat}"
-            )
-            val recyclerView = AndroidLibrary(
-                name = "androidx.recyclerview:recyclerview:${Versions.Libs.Android.recyclerView}"
-            )
-            val lifecycle = AndroidLibrary(
-                name = "androidx.lifecycle:lifecycle-extensions:${Versions.Libs.Android.lifecycle}"
-            )
+            const val appCompat = "androidx.appcompat:appcompat:$androidAppCompatVersion"
+            const val recyclerView = "androidx.recyclerview:recyclerview:$recyclerViewVersion"
+            const val lifecycle = "androidx.lifecycle:lifecycle-extensions:$androidLifecycleVersion"
+            const val swipeRefreshLayout =
+                "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
+            const val coroutines =
+                "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
         }
 
         object MultiPlatform {
-            val kotlinStdLib = MultiPlatformLibrary(
-                android = Android.kotlinStdLib.name,
-                common = "org.jetbrains.kotlin:kotlin-stdlib-common:${Versions.kotlin}"
-            )
-            val coroutines = MultiPlatformLibrary(
-                android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.Libs.MultiPlatform.coroutines}",
-                common = "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:${Versions.Libs.MultiPlatform.coroutines}",
-                ios = "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:${Versions.Libs.MultiPlatform.coroutines}"
-            )
-            val mokoPaging = MultiPlatformLibrary(
-                common = "dev.icerock.moko:paging:${Versions.Libs.MultiPlatform.mokoPaging}",
-                iosX64 = "dev.icerock.moko:paging-iosx64:${Versions.Libs.MultiPlatform.mokoPaging}",
-                iosArm64 = "dev.icerock.moko:paging-iosarm64:${Versions.Libs.MultiPlatform.mokoPaging}"
+            const val coroutines =
+                "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+            const val mokoResources =
+                "dev.icerock.moko:resources:$mokoResourcesVersion"
+            val mokoUnits = MultiPlatformLibrary(
+                common = "dev.icerock.moko:units:$mokoUnitsVersion",
+                iosX64 = "dev.icerock.moko:units-iosx64:$mokoUnitsVersion",
+                iosArm64 = "dev.icerock.moko:units-iosarm64:$mokoUnitsVersion"
             )
             val mokoMvvm = MultiPlatformLibrary(
-                common = "dev.icerock.moko:mvvm:${Versions.Libs.MultiPlatform.mokoMvvm}",
-                iosX64 = "dev.icerock.moko:mvvm-iosx64:${Versions.Libs.MultiPlatform.mokoMvvm}",
-                iosArm64 = "dev.icerock.moko:mvvm-iosarm64:${Versions.Libs.MultiPlatform.mokoMvvm}"
+                common = "dev.icerock.moko:mvvm:$mokoMvvmVersion",
+                iosX64 = "dev.icerock.moko:mvvm-iosx64:$mokoMvvmVersion",
+                iosArm64 = "dev.icerock.moko:mvvm-iosarm64:$mokoMvvmVersion"
             )
-            val mokoUnits = MultiPlatformLibrary(
-                common = "dev.icerock.moko:units:${Versions.Libs.MultiPlatform.mokoUnits}",
-                iosX64 = "dev.icerock.moko:units-iosx64:${Versions.Libs.MultiPlatform.mokoUnits}",
-                iosArm64 = "dev.icerock.moko:units-iosarm64:${Versions.Libs.MultiPlatform.mokoUnits}"
-            )
+            const val mokoPaging = "dev.icerock.moko:paging:$mokoPagingVersion"
+        }
+
+        object Tests {
+            const val kotlinTestJUnit =
+                "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion"
+            const val androidCoreTesting =
+                "androidx.arch.core:core-testing:$androidCoreTestingVersion"
+        }
+
+        object Detekt {
+            const val detektFormatting =
+                "io.gitlab.arturbosch.detekt:detekt-formatting:$detektVersion"
         }
     }
-
-    object Tests {
-        val kotlinTestCommon = MultiPlatformLibrary(
-            android = "org.jetbrains.kotlin:kotlin-test:${Versions.kotlin}",
-            common = "org.jetbrains.kotlin:kotlin-test-common:${Versions.kotlin}"
-        )
-        val kotlinTestCommonAnnotations = MultiPlatformLibrary(
-            android = "org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}",
-            common = "org.jetbrains.kotlin:kotlin-test-annotations-common:${Versions.kotlin}"
-        )
-        val androidCoreTesting = MultiPlatformLibrary(
-            android = "androidx.arch.core:core-testing:${Versions.Tests.androidCoreTesting}"
-        )
-    }
-
-    val plugins: Map<String, String> = mapOf(
-        "com.android.application" to Plugins.android,
-        "com.android.library" to Plugins.android,
-        "org.jetbrains.kotlin.multiplatform" to Plugins.kotlin,
-        "kotlin-kapt" to Plugins.kotlin,
-        "kotlin-android" to Plugins.kotlin,
-        "dev.icerock.mobile.multiplatform-units" to Plugins.mokoUnits
-    )
 }

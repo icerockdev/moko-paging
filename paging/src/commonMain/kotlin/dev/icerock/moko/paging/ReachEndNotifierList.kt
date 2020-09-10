@@ -4,6 +4,7 @@
 
 package dev.icerock.moko.paging
 
+@Suppress("TooManyFunctions")
 class ReachEndNotifierList<T>(
     private val mWrappedList: List<T>,
     val onReachEnd: (Int) -> Unit
