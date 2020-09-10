@@ -51,6 +51,7 @@ class Pagination<Item>(
         mEndOfList.postValue(false)
         mNextPageLoading.postValue(false)
 
+        @Suppress("TooGenericExceptionCaught")
         try {
             val items: List<Item> = dataSource.loadPage(null)
             mStateStorage.value = items.asState()
@@ -66,6 +67,7 @@ class Pagination<Item>(
         }
     }
 
+    @Suppress("ReturnCount")
     suspend fun loadNextPageSuspend() {
         if (mNextPageLoading.value) return
         if (mRefreshLoading.value) return
@@ -78,6 +80,7 @@ class Pagination<Item>(
 
         mNextPageLoading.postValue(true)
 
+        @Suppress("TooGenericExceptionCaught")
         try {
             // load next page items
             val items = dataSource.loadPage(currentList)
@@ -122,6 +125,7 @@ class Pagination<Item>(
 
         mRefreshLoading.postValue(true)
 
+        @Suppress("TooGenericExceptionCaught")
         try {
             // load first page items
             val items = dataSource.loadPage(null)
