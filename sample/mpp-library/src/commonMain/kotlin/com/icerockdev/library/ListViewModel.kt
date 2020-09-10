@@ -18,13 +18,15 @@ import dev.icerock.moko.paging.Pagination
 import dev.icerock.moko.units.TableUnitItem
 import kotlinx.coroutines.delay
 
+private const val PAGE_LOAD_DURATION_MS: Long = 2000
+
 class ListViewModel(
     private val unitsFactory: UnitsFactory
 ) : ViewModel() {
     private val pagination: Pagination<Product> = Pagination(
         parentScope = viewModelScope,
         dataSource = LambdaPagedListDataSource {
-            delay(2000)
+            delay(PAGE_LOAD_DURATION_MS)
 
             it?.plus(generatePack(it.size.toLong())) ?: generatePack()
         },
@@ -84,6 +86,7 @@ class ListViewModel(
         }
     }
 
+    @Suppress("MagicNumber")
     private fun generatePack(startId: Long = 0): List<Product> {
         return List(10) { idx ->
             val id = startId + idx

@@ -1,5 +1,5 @@
 ![moko-paging](img/logo.png)  
-[![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0) [![Download](https://api.bintray.com/packages/icerockdev/moko/moko-paging/images/download.svg) ](https://bintray.com/icerockdev/moko/moko-paging/_latestVersion) ![kotlin-version](https://img.shields.io/badge/kotlin-1.3.70-orange)
+[![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0) [![Download](https://api.bintray.com/packages/icerockdev/moko/moko-paging/images/download.svg) ](https://bintray.com/icerockdev/moko/moko-paging/_latestVersion) ![kotlin-version](https://img.shields.io/badge/kotlin-1.4.0-orange)
 
 # Mobile Kotlin paging
 This is a Kotlin MultiPlatform library that contains pagination logic for kotlin multiplatform
@@ -11,7 +11,7 @@ This is a Kotlin MultiPlatform library that contains pagination logic for kotlin
 - [Installation](#installation)
 - [Usage](#usage)
 - [Samples](#samples)
-- [Set Up Locally](#setup-locally)
+- [Set Up Locally](#set-up-locally)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -22,7 +22,7 @@ This is a Kotlin MultiPlatform library that contains pagination logic for kotlin
 - Observing states of **Pagination** using `LiveData` from **moko-mvvm**.
 
 ## Requirements
-- Gradle version 5.6.4+
+- Gradle version 6.0+
 - Android API 16+
 - iOS version 9.0+
 
@@ -35,6 +35,8 @@ This is a Kotlin MultiPlatform library that contains pagination logic for kotlin
   - 0.2.2
   - 0.3.0
   - 0.3.1
+- kotlin 1.4.0
+  - 0.4.0
 
 ## Installation
 root build.gradle  
@@ -49,7 +51,7 @@ allprojects {
 project build.gradle
 ```groovy
 dependencies {
-    commonMainApi("dev.icerock.moko:paging:0.3.1")
+    commonMainApi("dev.icerock.moko:paging:0.4.0")
 }
 ```
 
@@ -126,8 +128,7 @@ Please see more examples in the [sample directory](sample).
 
 ## Set Up Locally 
 - The [paging directory](paging) contains the `paging` library;
-- The [sample directory](sample) contains sample apps for Android and iOS; plus the mpp-library connected to the apps;
-- For local testing a library use the `./publishToMavenLocal.sh` script - so that sample apps use the locally published version.
+- The [sample directory](sample) contains sample apps for Android and iOS; plus the mpp-library connected to the apps.
 
 ## Contributing
 All development (both new features and bug fixes) is performed in the `develop` branch. This way `master` always contains the sources of the most recently released version. Please send PRs with bug fixes to the `develop` branch. Documentation fixes in the markdown files are an exception to this rule. They are updated directly in `master`.
