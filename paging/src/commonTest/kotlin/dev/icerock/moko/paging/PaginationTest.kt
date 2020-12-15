@@ -5,6 +5,8 @@
 package dev.icerock.moko.paging
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
@@ -69,7 +71,6 @@ class PaginationTest : BaseTestsClass() {
 
     @Test
     fun `set data`() = runTest {
-
         val pagination = createPagination()
 
         pagination.loadFirstPageSuspend()
@@ -81,6 +82,41 @@ class PaginationTest : BaseTestsClass() {
         assertTrue {
             pagination.state.value.dataValue()!!.compareWith(setList)
         }
+    }
+
+    @Test
+    fun `double refresh`() = runTest {
+        var counter = 0
+        val pagination = Pagination<Int>(
+            parentScope = this,
+            dataSource = LambdaPagedListDataSource {
+                val load = counter++
+                println("start load new page with $it")
+                delay(100)
+                println("respond new list $load")
+                listOf(1, 2, 3, 4)
+            },
+            comparator = itemsComparator,
+            nextPageListener = { },
+            refreshListener = { }
+        )
+
+        println("start load first page")
+        pagination.loadFirstPageSuspend()
+        println("end load first page")
+
+        println("start double refresh")
+        val r1 = async {
+            pagination.refreshSuspend()
+            println("first refresh end")
+        }
+        val r2 = async {
+            pagination.refreshSuspend()
+            println("second refresh end")
+        }
+
+        r1.await()
+        r2.await()
     }
 
     private fun CoroutineScope.createPagination(
