@@ -21,11 +21,12 @@ dependencies {
 
     commonTestImplementation(Deps.Libs.Tests.kotlinTestJUnit)
     androidTestImplementation(Deps.Libs.Tests.androidCoreTesting)
-
-    // temporary fix of https://youtrack.jetbrains.com/issue/KT-41083
-    commonMainImplementation("dev.icerock.moko:resources:0.13.1")
-    commonMainImplementation("dev.icerock.moko:parcelize:0.4.0")
-    commonMainImplementation("dev.icerock.moko:graphics:0.4.0")
+    androidTestImplementation(Deps.Libs.MultiPlatform.ktorClient.android!!)
+    commonTestImplementation(Deps.Libs.MultiPlatform.ktorClient.common)
+    iosX64TestImplementation(Deps.Libs.MultiPlatform.ktorClient.iosX64!!)
+    iosX64TestImplementation(Deps.Libs.MultiPlatform.coroutines) {
+        isForce = true
+    }
 }
 
 publishing {

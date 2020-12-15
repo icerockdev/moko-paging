@@ -4,13 +4,19 @@
 
 package dev.icerock.moko.paging
 
+import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Delay
+import kotlinx.coroutines.DisposableHandle
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 import platform.Foundation.NSDate
+import platform.Foundation.NSDefaultRunLoopMode
 import platform.Foundation.NSRunLoop
+import platform.Foundation.NSTimer
 import platform.Foundation.addTimeInterval
 import platform.Foundation.performBlock
 import platform.Foundation.runUntilDate
@@ -52,10 +58,27 @@ private class Expectation<T> {
     }
 }
 
-private object MainRunLoopDispatcher : CoroutineDispatcher() {
+@UseExperimental(InternalCoroutinesApi::class)
+private object MainRunLoopDispatcher : CoroutineDispatcher(), Delay {
     override fun dispatch(context: CoroutineContext, block: Runnable) {
-        NSRunLoop.mainRunLoop().performBlock {
+        NSRunLoop.mainRunLoop.performBlock {
             block.run()
         }
+    }
+
+    override fun scheduleResumeAfterDelay(
+        timeMillis: Long,
+        continuation: CancellableContinuation<Unit>
+    ) {
+        val timer = NSTimer(
+            fireDate = NSDate().addTimeInterval((timeMillis / 1000).toDouble()) as NSDate,
+            interval = 0.0,
+            repeats = false,
+            block = {
+                val result = continuation.tryResume(Unit)
+                if (result != null) continuation.completeResume(result)
+            }
+        )
+        NSRunLoop.mainRunLoop.addTimer(timer, NSDefaultRunLoopMode)
     }
 }
