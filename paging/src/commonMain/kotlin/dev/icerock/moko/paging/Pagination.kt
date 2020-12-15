@@ -48,8 +48,8 @@ class Pagination<Item>(
     suspend fun loadFirstPageSuspend() {
         listMutex.lock()
 
-        mEndOfList.postValue(false)
-        mNextPageLoading.postValue(false)
+        mEndOfList.value = false
+        mNextPageLoading.value = false
 
         @Suppress("TooGenericExceptionCaught")
         try {
@@ -78,7 +78,7 @@ class Pagination<Item>(
 
         listMutex.lock()
 
-        mNextPageLoading.postValue(true)
+        mNextPageLoading.value = true
 
         @Suppress("TooGenericExceptionCaught")
         try {
@@ -123,7 +123,7 @@ class Pagination<Item>(
 
         listMutex.lock()
 
-        mRefreshLoading.postValue(true)
+        mRefreshLoading.value = true
 
         @Suppress("TooGenericExceptionCaught")
         try {
