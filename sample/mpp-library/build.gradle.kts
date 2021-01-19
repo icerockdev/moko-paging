@@ -24,4 +24,5 @@ dependencies {
 framework {
     export(Deps.Libs.MultiPlatform.mokoUnits)
     export(Deps.Libs.MultiPlatform.mokoMvvmLiveData)
+    export(Deps.Libs.MultiPlatform.mokoMvvmState)
 }
