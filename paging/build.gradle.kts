@@ -15,7 +15,8 @@ version = Deps.mokoPagingVersion
 
 dependencies {
     commonMainImplementation(Deps.Libs.MultiPlatform.coroutines)
-    commonMainImplementation(Deps.Libs.MultiPlatform.mokoMvvm.common)
+    commonMainApi(Deps.Libs.MultiPlatform.mokoMvvmLiveData.common)
+    commonMainApi(Deps.Libs.MultiPlatform.mokoMvvmState.common)
 
     androidMainImplementation(Deps.Libs.Android.appCompat)
 

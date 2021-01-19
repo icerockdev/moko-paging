@@ -15,10 +15,10 @@ object Deps {
 
     private const val ktorClientVersion = "1.4.0"
     private const val coroutinesVersion = "1.4.2-native-mt"
-    private const val mokoMvvmVersion = "0.8.1"
+    private const val mokoMvvmVersion = "0.9.0"
     private const val mokoResourcesVersion = "0.13.2"
     private const val mokoUnitsVersion = "0.4.0"
-    const val mokoPagingVersion = "0.4.1"
+    const val mokoPagingVersion = "0.4.2"
 
     object Android {
         const val compileSdk = 28
@@ -76,7 +76,9 @@ object Deps {
                 "dev.icerock.moko:resources:$mokoResourcesVersion"
             val mokoUnits = "dev.icerock.moko:units:$mokoUnitsVersion"
                 .defaultMPL(ios = true)
-            val mokoMvvm = "dev.icerock.moko:mvvm:$mokoMvvmVersion"
+            val mokoMvvmLiveData = "dev.icerock.moko:mvvm-livedata:$mokoMvvmVersion"
+                .defaultMPL(ios = true)
+            val mokoMvvmState = "dev.icerock.moko:mvvm-state:$mokoMvvmVersion"
                 .defaultMPL(ios = true)
             const val mokoPaging = "dev.icerock.moko:paging:$mokoPagingVersion"
         }
