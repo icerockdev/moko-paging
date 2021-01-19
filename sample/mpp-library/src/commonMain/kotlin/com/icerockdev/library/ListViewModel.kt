@@ -4,7 +4,7 @@
 
 package com.icerockdev.library
 
-import dev.icerock.moko.mvvm.State
+import dev.icerock.moko.mvvm.ResourceState
 import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.dataTransform
 import dev.icerock.moko.mvvm.livedata.errorTransform
@@ -37,7 +37,7 @@ class ListViewModel(
     )
 
     val isRefreshing: LiveData<Boolean> = pagination.refreshLoading
-    val state: LiveData<State<List<TableUnitItem>, String>> = pagination.state
+    val state: LiveData<ResourceState<List<TableUnitItem>, String>> = pagination.state
         .dataTransform {
             map { productList ->
                 productList.map { product ->

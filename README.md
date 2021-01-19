@@ -39,6 +39,7 @@ This is a Kotlin MultiPlatform library that contains pagination logic for kotlin
   - 0.4.0
 - kotlin 1.4.21
   - 0.4.1
+  - 0.4.2
 
 ## Installation
 root build.gradle  
@@ -53,7 +54,7 @@ allprojects {
 project build.gradle
 ```groovy
 dependencies {
-    commonMainApi("dev.icerock.moko:paging:0.4.1")
+    commonMainApi("dev.icerock.moko:paging:0.4.2")
 }
 ```
 
@@ -110,7 +111,7 @@ Observing **Pagination** states:
 
 ```kotlin
 // Observing the state of the pagination
-pagination.state.addObserver { state: State<List<ItemClass>, Throwable> -> 
+pagination.state.addObserver { state: ResourceState<List<ItemClass>, Throwable> -> 
     // ...
 }
 

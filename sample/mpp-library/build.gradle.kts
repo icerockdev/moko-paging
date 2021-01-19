@@ -14,7 +14,8 @@ dependencies {
 
     commonMainApi(Deps.Libs.MultiPlatform.mokoPaging)
     commonMainApi(Deps.Libs.MultiPlatform.mokoUnits.common)
-    commonMainApi(Deps.Libs.MultiPlatform.mokoMvvm.common)
+    commonMainApi(Deps.Libs.MultiPlatform.mokoMvvmLiveData.common)
+    commonMainApi(Deps.Libs.MultiPlatform.mokoMvvmState.common)
     commonMainApi(Deps.Libs.MultiPlatform.mokoResources)
 
     androidMainImplementation(Deps.Libs.Android.lifecycle)
@@ -22,5 +23,5 @@ dependencies {
 
 framework {
     export(Deps.Libs.MultiPlatform.mokoUnits)
-    export(Deps.Libs.MultiPlatform.mokoMvvm)
+    export(Deps.Libs.MultiPlatform.mokoMvvmLiveData)
 }

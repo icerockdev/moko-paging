@@ -25,11 +25,11 @@ class TestViewController: UIViewController {
         tableView.refreshControl = refreshControl
         
         
-        listViewModel.state.data().addObserver { data in
-            guard let units = data as? [TableUnitItem] else { return }
+        listViewModel.state.addObserver(observer: { state in
+            guard let units = state?.dataValue() as? [TableUnitItem] else { return }
             
             unitsSource.unitItems = units
-        }
+        })
         listViewModel.isRefreshing.addObserver { refreshing in
             if refreshing == false {
                 refreshControl.endRefreshing()
