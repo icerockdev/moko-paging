@@ -4,7 +4,7 @@
 
 package dev.icerock.moko.paging
 
-import dev.icerock.moko.mvvm.State
+import dev.icerock.moko.mvvm.ResourceState
 import dev.icerock.moko.mvvm.asState
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.livedata.readOnly
@@ -25,7 +25,7 @@ class Pagination<Item>(
     override val coroutineContext: CoroutineContext = parentScope.coroutineContext
 
     private val mStateStorage =
-        MutableLiveData<State<List<Item>, Throwable>>(initValue.asStateNullIsEmpty())
+        MutableLiveData<ResourceState<List<Item>, Throwable>>(initValue.asStateNullIsEmpty())
 
     val state = mStateStorage.readOnly()
 
@@ -56,7 +56,7 @@ class Pagination<Item>(
             val items: List<Item> = dataSource.loadPage(null)
             mStateStorage.value = items.asState()
         } catch (error: Throwable) {
-            mStateStorage.value = State.Error(error)
+            mStateStorage.value = ResourceState.Failed(error)
         }
         listMutex.unlock()
     }
@@ -137,7 +137,7 @@ class Pagination<Item>(
             // notify
             refreshListener(Result.success(items))
         } catch (error: Throwable) {
-            mStateStorage.value = State.Error(error)
+            mStateStorage.value = ResourceState.Failed(error)
             // flag
             mRefreshLoading.value = false
             // notify
@@ -161,7 +161,7 @@ class Pagination<Item>(
 }
 
 fun <T, E> T?.asStateNullIsEmpty() = asState {
-    State.Loading<T, E>()
+    ResourceState.Loading<T, E>()
 }
 
 interface IdEntity {
