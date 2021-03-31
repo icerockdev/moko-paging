@@ -50,6 +50,7 @@ class Pagination<Item>(
 
         mEndOfList.value = false
         mNextPageLoading.value = false
+        mStateStorage.value = ResourceState.Loading()
 
         @Suppress("TooGenericExceptionCaught")
         try {
