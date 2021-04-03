@@ -1,5 +1,5 @@
 ![moko-paging](img/logo.png)  
-[![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0) [![Download](https://api.bintray.com/packages/icerockdev/moko/moko-paging/images/download.svg) ](https://bintray.com/icerockdev/moko/moko-paging/_latestVersion) ![kotlin-version](https://img.shields.io/badge/kotlin-1.4.21-orange)
+[![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0) [![Download](https://img.shields.io/maven-central/v/dev.icerock.moko/paging) ](https://repo1.maven.org/maven2/dev/icerock/moko/paging) ![kotlin-version](https://img.shields.io/badge/kotlin-1.4.31-orange)
 
 # Mobile Kotlin paging
 This is a Kotlin MultiPlatform library that contains pagination logic for kotlin multiplatform
@@ -27,6 +27,7 @@ This is a Kotlin MultiPlatform library that contains pagination logic for kotlin
 - iOS version 9.0+
 
 ## Versions
+### Bintray
 - kotlin 1.3.61
   - 0.1.0
 - kotlin 1.3.70
@@ -41,13 +42,16 @@ This is a Kotlin MultiPlatform library that contains pagination logic for kotlin
   - 0.4.1
   - 0.4.2
   - 0.4.3
+### mavenCentral
+- kotlin 1.4.31
+  - 0.4.4
 
 ## Installation
 root build.gradle  
 ```groovy
 allprojects {
     repositories {
-        maven { url = "https://dl.bintray.com/icerockdev/moko" }
+        mavenCentral()
     }
 }
 ```
@@ -55,7 +59,7 @@ allprojects {
 project build.gradle
 ```groovy
 dependencies {
-    commonMainApi("dev.icerock.moko:paging:0.4.3")
+    commonMainApi("dev.icerock.moko:paging:0.4.4")
 }
 ```
 
