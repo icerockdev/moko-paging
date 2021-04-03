@@ -3,7 +3,7 @@
  */
 
 object Deps {
-    private const val kotlinVersion = "1.4.21"
+    private const val kotlinVersion = "1.4.31"
 
     private const val androidAppCompatVersion = "1.1.0"
     private const val androidLifecycleVersion = "2.1.0"
@@ -11,14 +11,14 @@ object Deps {
     private const val recyclerViewVersion = "1.1.0"
     private const val swipeRefreshLayoutVersion = "1.1.0"
 
-    private const val detektVersion = "1.7.4"
+    private const val detektVersion = "1.15.0"
 
     private const val ktorClientVersion = "1.4.0"
     private const val coroutinesVersion = "1.4.2-native-mt"
-    private const val mokoMvvmVersion = "0.9.0"
-    private const val mokoResourcesVersion = "0.13.2"
-    private const val mokoUnitsVersion = "0.4.0"
-    const val mokoPagingVersion = "0.4.3"
+    private const val mokoMvvmVersion = "0.9.2"
+    private const val mokoResourcesVersion = "0.15.1"
+    private const val mokoUnitsVersion = "0.4.2"
+    const val mokoPagingVersion = "0.4.4"
 
     object Android {
         const val compileSdk = 28
@@ -34,6 +34,7 @@ object Deps {
         val kotlinAndroid = GradlePlugin(id = "kotlin-android")
         val kotlinAndroidExtensions = GradlePlugin(id = "kotlin-android-extensions")
         val mavenPublish = GradlePlugin(id = "org.gradle.maven-publish")
+        val signing = GradlePlugin(id = "signing")
 
         val mobileMultiplatform = GradlePlugin(id = "dev.icerock.mobile.multiplatform")
         val iosFramework = GradlePlugin(id = "dev.icerock.mobile.multiplatform.ios-framework")
