@@ -18,7 +18,7 @@ object Deps {
     private const val mokoMvvmVersion = "0.9.2"
     private const val mokoResourcesVersion = "0.15.1"
     private const val mokoUnitsVersion = "0.4.2"
-    const val mokoPagingVersion = "0.4.4"
+    const val mokoPagingVersion = "0.4.5"
 
     object Android {
         const val compileSdk = 28
