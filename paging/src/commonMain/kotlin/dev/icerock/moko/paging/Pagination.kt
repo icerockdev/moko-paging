@@ -25,7 +25,7 @@ class Pagination<Item>(
     override val coroutineContext: CoroutineContext = parentScope.coroutineContext
 
     private val mStateStorage =
-        MutableLiveData<ResourceState<List<Item>, Throwable>>(initValue.asStateNullIsEmpty())
+        MutableLiveData<ResourceState<List<Item>, Throwable>>(initValue.asStateNullIsLoading())
 
     val state = mStateStorage.readOnly()
 
@@ -161,8 +161,12 @@ class Pagination<Item>(
     }
 }
 
-fun <T, E> T?.asStateNullIsEmpty() = asState {
-    ResourceState.Loading<T, E>()
+fun <T, E> List<T>?.asStateNullIsEmpty() = asState {
+    ResourceState.Empty<List<T>, E>()
+}
+
+fun <T, E> List<T>?.asStateNullIsLoading() = asState {
+    ResourceState.Loading<List<T>, E>()
 }
 
 interface IdEntity {
