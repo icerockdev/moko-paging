@@ -74,7 +74,6 @@ class Pagination<Item>(
         if (mRefreshLoading.value) return
         if (mEndOfList.value) return
 
-
         listMutex.lock()
 
         mNextPageLoading.value = true
