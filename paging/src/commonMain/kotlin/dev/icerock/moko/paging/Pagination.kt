@@ -41,7 +41,7 @@ class Pagination<Item>(
 
     private val listMutex = Mutex()
 
-    private var loadNextPageDeferred: Deferred<Unit>? = null
+    private var loadNextPageDeferred: Deferred<List<Item>>? = null
 
     fun loadFirstPage() {
         launch {
@@ -86,7 +86,6 @@ class Pagination<Item>(
 
         @Suppress("TooGenericExceptionCaught")
         try {
-            var newList: List<Item> = emptyList()
             loadNextPageDeferred = this.async {
                 val currentList = mStateStorage.value.dataValue()
                     ?: throw IllegalStateException("Try to load next page when list is empty")
@@ -98,7 +97,7 @@ class Pagination<Item>(
                     existsItem == null
                 }
                 // append new items to current list
-                newList = currentList.plus(newItems)
+                val newList = currentList.plus(newItems)
                 // mark end of list if no new items
                 if (newItems.isEmpty()) {
                     mEndOfList.value = true
@@ -106,8 +105,9 @@ class Pagination<Item>(
                     // save
                     mStateStorage.value = newList.asState()
                 }
+                newList
             }
-            loadNextPageDeferred!!.await()
+            val newList = loadNextPageDeferred!!.await()
 
             // flag
             mNextPageLoading.value = false
