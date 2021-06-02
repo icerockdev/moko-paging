@@ -60,7 +60,7 @@ allprojects {
 project build.gradle
 ```groovy
 dependencies {
-    commonMainApi("dev.icerock.moko:paging:0.4.6")
+    commonMainApi("dev.icerock.moko:paging:0.4.7")
 }
 ```
 
