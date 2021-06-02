@@ -56,7 +56,7 @@ class Pagination<Item>(
         try {
             val items: List<Item> = dataSource.loadPage(null)
             mStateStorage.value = items.asState()
-        } catch (error: Throwable) {
+        } catch (error: Exception) {
             mStateStorage.value = ResourceState.Failed(error)
         }
         listMutex.unlock()
@@ -74,8 +74,6 @@ class Pagination<Item>(
         if (mRefreshLoading.value) return
         if (mEndOfList.value) return
 
-        val currentList = mStateStorage.value.dataValue()
-            ?: throw IllegalStateException("Try to load next page when list is empty")
 
         listMutex.lock()
 
@@ -83,6 +81,8 @@ class Pagination<Item>(
 
         @Suppress("TooGenericExceptionCaught")
         try {
+            val currentList = mStateStorage.value.dataValue()
+                ?: throw IllegalStateException("Try to load next page when list is empty")
             // load next page items
             val items = dataSource.loadPage(currentList)
             // remove already exist items
@@ -103,7 +103,7 @@ class Pagination<Item>(
             mNextPageLoading.value = false
             // notify
             nextPageListener(Result.success(newList))
-        } catch (error: Throwable) {
+        } catch (error: Exception) {
             // flag
             mNextPageLoading.value = false
             // notify
@@ -137,7 +137,7 @@ class Pagination<Item>(
             mRefreshLoading.value = false
             // notify
             refreshListener(Result.success(items))
-        } catch (error: Throwable) {
+        } catch (error: Exception) {
             mStateStorage.value = ResourceState.Failed(error)
             // flag
             mRefreshLoading.value = false
