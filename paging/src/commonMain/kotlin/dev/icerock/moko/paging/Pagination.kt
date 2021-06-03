@@ -130,10 +130,16 @@ class Pagination<Item>(
 
     suspend fun refreshSuspend() {
         loadNextPageDeferred?.cancel()
-
-        if (mRefreshLoading.value) return
-
         listMutex.lock()
+
+        if (mRefreshLoading.value) {
+            listMutex.unlock()
+            return
+        }
+        if (mNextPageLoading.value) {
+            listMutex.unlock()
+            return
+        }
 
         mRefreshLoading.value = true
 
