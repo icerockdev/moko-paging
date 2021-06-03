@@ -9,6 +9,8 @@ import dev.icerock.moko.mvvm.asState
 import dev.icerock.moko.mvvm.livedata.MutableLiveData
 import dev.icerock.moko.mvvm.livedata.readOnly
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlin.coroutines.CoroutineContext
@@ -39,6 +41,8 @@ class Pagination<Item>(
 
     private val listMutex = Mutex()
 
+    private var loadNextPageDeferred: Deferred<List<Item>>? = null
+
     fun loadFirstPage() {
         launch {
             loadFirstPageSuspend()
@@ -46,6 +50,8 @@ class Pagination<Item>(
     }
 
     suspend fun loadFirstPageSuspend() {
+        loadNextPageDeferred?.cancel()
+
         listMutex.lock()
 
         mEndOfList.value = false
@@ -56,7 +62,7 @@ class Pagination<Item>(
         try {
             val items: List<Item> = dataSource.loadPage(null)
             mStateStorage.value = items.asState()
-        } catch (error: Throwable) {
+        } catch (error: Exception) {
             mStateStorage.value = ResourceState.Failed(error)
         }
         listMutex.unlock()
@@ -74,36 +80,40 @@ class Pagination<Item>(
         if (mRefreshLoading.value) return
         if (mEndOfList.value) return
 
-        val currentList = mStateStorage.value.dataValue()
-            ?: throw IllegalStateException("Try to load next page when list is empty")
-
         listMutex.lock()
 
         mNextPageLoading.value = true
 
         @Suppress("TooGenericExceptionCaught")
         try {
-            // load next page items
-            val items = dataSource.loadPage(currentList)
-            // remove already exist items
-            val newItems = items.filter { item ->
-                val existsItem = currentList.firstOrNull { comparator.compare(item, it) == 0 }
-                existsItem == null
+            loadNextPageDeferred = this.async {
+                val currentList = mStateStorage.value.dataValue()
+                    ?: throw IllegalStateException("Try to load next page when list is empty")
+                // load next page items
+                val items = dataSource.loadPage(currentList)
+                // remove already exist items
+                val newItems = items.filter { item ->
+                    val existsItem = currentList.firstOrNull { comparator.compare(item, it) == 0 }
+                    existsItem == null
+                }
+                // append new items to current list
+                val newList = currentList.plus(newItems)
+                // mark end of list if no new items
+                if (newItems.isEmpty()) {
+                    mEndOfList.value = true
+                } else {
+                    // save
+                    mStateStorage.value = newList.asState()
+                }
+                newList
             }
-            // append new items to current list
-            val newList = currentList.plus(newItems)
-            // mark end of list if no new items
-            if (newItems.isEmpty()) {
-                mEndOfList.value = true
-            } else {
-                // save
-                mStateStorage.value = newList.asState()
-            }
+            val newList = loadNextPageDeferred!!.await()
+
             // flag
             mNextPageLoading.value = false
             // notify
             nextPageListener(Result.success(newList))
-        } catch (error: Throwable) {
+        } catch (error: Exception) {
             // flag
             mNextPageLoading.value = false
             // notify
@@ -119,10 +129,17 @@ class Pagination<Item>(
     }
 
     suspend fun refreshSuspend() {
-        if (mNextPageLoading.value) return
-        if (mRefreshLoading.value) return
-
+        loadNextPageDeferred?.cancel()
         listMutex.lock()
+
+        if (mRefreshLoading.value) {
+            listMutex.unlock()
+            return
+        }
+        if (mNextPageLoading.value) {
+            listMutex.unlock()
+            return
+        }
 
         mRefreshLoading.value = true
 
@@ -137,7 +154,7 @@ class Pagination<Item>(
             mRefreshLoading.value = false
             // notify
             refreshListener(Result.success(items))
-        } catch (error: Throwable) {
+        } catch (error: Exception) {
             mStateStorage.value = ResourceState.Failed(error)
             // flag
             mRefreshLoading.value = false

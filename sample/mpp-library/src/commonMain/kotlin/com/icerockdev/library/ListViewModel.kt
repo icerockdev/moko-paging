@@ -88,7 +88,7 @@ class ListViewModel(
 
     @Suppress("MagicNumber")
     private fun generatePack(startId: Long = 0): List<Product> {
-        return List(10) { idx ->
+        return List(20) { idx ->
             val id = startId + idx
             Product(
                 id = id,
