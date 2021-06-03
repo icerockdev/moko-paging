@@ -46,6 +46,7 @@ This is a Kotlin MultiPlatform library that contains pagination logic for kotlin
 - kotlin 1.4.31
   - 0.4.4
   - 0.4.5
+  - 0.4.6
 
 ## Installation
 root build.gradle  
