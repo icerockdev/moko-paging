@@ -17,7 +17,7 @@ object Deps {
     private const val coroutinesVersion = "1.4.2-native-mt"
     private const val mokoMvvmVersion = "0.9.2"
     private const val mokoResourcesVersion = "0.15.1"
-    private const val mokoUnitsVersion = "0.4.2"
+    private const val mokoUnitsVersion = "0.5.0"
     const val mokoPagingVersion = "0.4.6"
 
     object Android {
