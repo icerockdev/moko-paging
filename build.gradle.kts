@@ -1,60 +1,36 @@
 /*
  * Copyright 2020 IceRock MAG Inc. Use of this source code is governed by the Apache 2.0 license.
  */
+import org.gradle.api.internal.artifacts.DefaultModuleVersionSelector
 
 buildscript {
     repositories {
         mavenCentral()
         google()
-
-        jcenter {
-            content {
-                includeGroup("org.jetbrains.trove4j")
-            }
-        }
+        gradlePluginPortal()
     }
 
     dependencies {
-        plugin(Deps.Plugins.mokoUnits)
-    }
-}
+        classpath("dev.icerock.moko:units-generator:0.6.0")
 
-plugins {
-    plugin(Deps.Plugins.detekt).apply(false)
+        classpath(":paging-build-logic")
+    }
 }
 
 allprojects {
-    repositories {
-        mavenCentral()
-        google()
-
-        jcenter {
-            content {
-                includeGroup("org.jetbrains.trove4j")
-                includeGroup("org.jetbrains.kotlinx")
-            }
+    plugins.withId("org.gradle.maven-publish") {
+        group = "dev.icerock.moko"
+        version = libs.versions.mokoPagingVersion.get()
+    }
+    configurations.configureEach {
+        resolutionStrategy {
+            val coroutines: MinimalExternalModuleDependency = rootProject.libs.coroutines.get()
+            val forcedCoroutines: ModuleVersionSelector = DefaultModuleVersionSelector.newSelector(
+                coroutines.module,
+                coroutines.versionConstraint.requiredVersion
+            )
+            force(forcedCoroutines)
         }
-    }
-
-    plugins.withId(Deps.Plugins.androidLibrary.id) {
-        configure<com.android.build.gradle.LibraryExtension> {
-            compileSdkVersion(Deps.Android.compileSdk)
-
-            defaultConfig {
-                minSdkVersion(Deps.Android.minSdk)
-                targetSdkVersion(Deps.Android.targetSdk)
-            }
-        }
-    }
-
-    apply(plugin = Deps.Plugins.detekt.id)
-
-    configure<io.gitlab.arturbosch.detekt.extensions.DetektExtension> {
-        input.setFrom("src/commonMain/kotlin", "src/androidMain/kotlin", "src/iosMain/kotlin")
-    }
-
-    dependencies {
-        "detektPlugins"(Deps.Libs.Detekt.detektFormatting)
     }
 }
 
