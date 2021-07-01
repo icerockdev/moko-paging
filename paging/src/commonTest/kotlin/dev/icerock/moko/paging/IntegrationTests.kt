@@ -5,19 +5,39 @@
 package dev.icerock.moko.paging
 
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.engine.mock.respondOk
 import io.ktor.client.request.get
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.test.Test
-import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
 class IntegrationTests : BaseTestsClass() {
-    private val httpClient = HttpClient()
+    private val httpClient = HttpClient(MockEngine) {
+        engine {
+            addHandler { request ->
+                when (request.url.encodedPath) {
+                    "http://api.icndb.com/jokes/random" -> {
+                        delay(200)
+                        respondOk("""
+                            {
+                              "type": "success",
+                              "value": {
+                                "id": 318,
+                                "joke": "If you work in an office with Chuck Norris, don't ask him for his three-hole-punch.",
+                                "categories": []
+                              }
+                            }
+                        """.trimIndent())
+                    }
+                    else -> error("Unhandled ${request.url.encodedPath}")
+                }
+            }
+        }
+    }
 
     @Test
     fun parallelRequests() = runTest {
