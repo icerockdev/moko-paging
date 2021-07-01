@@ -8,6 +8,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respondOk
 import io.ktor.client.request.get
+import io.ktor.http.fullPath
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.coroutineScope
@@ -19,7 +20,7 @@ class IntegrationTests : BaseTestsClass() {
     private val httpClient = HttpClient(MockEngine) {
         engine {
             addHandler { request ->
-                when (request.url.encodedPath) {
+                when (request.url.fullPath) {
                     "http://api.icndb.com/jokes/random" -> {
                         delay(200)
                         respondOk("""
@@ -33,7 +34,7 @@ class IntegrationTests : BaseTestsClass() {
                             }
                         """.trimIndent())
                     }
-                    else -> error("Unhandled ${request.url.encodedPath}")
+                    else -> error("Unhandled ${request.url.fullPath}")
                 }
             }
         }
