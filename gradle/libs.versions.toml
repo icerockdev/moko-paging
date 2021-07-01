@@ -1,0 +1,28 @@
+[versions]
+kotlinVersion = "1.5.20"
+androidAppCompatVersion = "1.2.0"
+androidLifecycleVersion = "2.1.0"
+androidCoreTestingVersion = "2.1.0"
+recyclerViewVersion = "1.1.0"
+swipeRefreshLayoutVersion = "1.1.0"
+ktorClientVersion = "1.6.0"
+coroutinesVersion = "1.5.0-native-mt"
+mokoMvvmVersion = "0.11.0"
+mokoResourcesVersion = "0.16.0"
+mokoUnitsVersion = "0.6.0"
+mokoPagingVersion = "0.5.0"
+
+[libraries]
+appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidAppCompatVersion" }
+recyclerView = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerViewVersion" }
+lifecycle = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "androidLifecycleVersion" }
+swipeRefreshLayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swipeRefreshLayoutVersion" }
+coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutinesVersion" }
+ktorClient = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientVersion" }
+mokoResources = { module = "dev.icerock.moko:resources", version.ref = "mokoResourcesVersion" }
+mokoUnits = { module = "dev.icerock.moko:units", version.ref = "mokoUnitsVersion" }
+mokoMvvmLiveData = { module = "dev.icerock.moko:mvvm-livedata", version.ref = "mokoMvvmVersion" }
+mokoMvvmState = { module = "dev.icerock.moko:mvvm-state", version.ref = "mokoMvvmVersion" }
+kotlinTestJUnit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlinVersion" }
+androidCoreTesting = { module = "androidx.arch.core:core-testing", version.ref = "androidCoreTestingVersion" }
+ktorClientMock = { module = "io.ktor:ktor-client-mock", version.ref = "ktorClientVersion" }

@@ -3,26 +3,33 @@
  */
 
 plugins {
-    plugin(Deps.Plugins.androidLibrary)
-    plugin(Deps.Plugins.kotlinMultiplatform)
-    plugin(Deps.Plugins.mobileMultiplatform)
-    plugin(Deps.Plugins.iosFramework)
+    id("com.android.library")
+    id("android-base-convention")
+    id("detekt-convention")
+    id("org.jetbrains.kotlin.multiplatform")
+    id("dev.icerock.mobile.multiplatform.android-manifest")
+    id("dev.icerock.mobile.multiplatform.ios-framework")
+}
+
+kotlin {
+    android()
+    ios()
 }
 
 dependencies {
-    commonMainImplementation(Deps.Libs.MultiPlatform.coroutines)
+    commonMainImplementation(libs.coroutines)
 
-    commonMainApi(Deps.Libs.MultiPlatform.mokoPaging)
-    commonMainApi(Deps.Libs.MultiPlatform.mokoUnits.common)
-    commonMainApi(Deps.Libs.MultiPlatform.mokoMvvmLiveData.common)
-    commonMainApi(Deps.Libs.MultiPlatform.mokoMvvmState.common)
-    commonMainApi(Deps.Libs.MultiPlatform.mokoResources)
+    commonMainApi(projects.paging)
+    commonMainApi(libs.mokoUnits)
+    commonMainApi(libs.mokoMvvmLiveData)
+    commonMainApi(libs.mokoMvvmState)
+    commonMainApi(libs.mokoResources)
 
-    androidMainImplementation(Deps.Libs.Android.lifecycle)
+    "androidMainImplementation"(libs.lifecycle)
 }
 
 framework {
-    export(Deps.Libs.MultiPlatform.mokoUnits)
-    export(Deps.Libs.MultiPlatform.mokoMvvmLiveData)
-    export(Deps.Libs.MultiPlatform.mokoMvvmState)
+    export(libs.mokoUnits)
+    export(libs.mokoMvvmLiveData)
+    export(libs.mokoMvvmState)
 }
