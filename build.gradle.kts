@@ -11,9 +11,13 @@ buildscript {
     }
 
     dependencies {
-        classpath("dev.icerock.moko:units-generator:0.6.0")
-
-        classpath(":paging-build-logic")
+        classpath(libs.kotlinGradlePlugin)
+        classpath(libs.androidGradlePlugin)
+        classpath(libs.googleServicesGradlePlugin)
+        classpath(libs.mokoGradlePlugin)
+        classpath(libs.mobileMultiplatformGradlePlugin)
+        classpath(libs.kotlinSerializationGradlePlugin)
+        classpath(libs.mokoUnitsGeneratorGradlePlugin)
     }
 }
 

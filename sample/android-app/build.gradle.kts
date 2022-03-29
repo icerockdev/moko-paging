@@ -3,7 +3,9 @@
  */
 
 plugins {
-    id("android-app-convention")
+    id("com.android.application")
+    id("dev.icerock.moko.gradle.android.base")
+    id("dev.icerock.moko.gradle.detekt")
     id("kotlin-android")
     id("kotlin-kapt")
     id("dev.icerock.mobile.multiplatform-units")

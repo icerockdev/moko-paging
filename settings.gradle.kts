@@ -18,7 +18,7 @@ dependencyResolutionManagement {
     }
 }
 
-includeBuild("paging-build-logic")
+//includeBuild("paging-build-logic")
 
 include(":paging")
 include(":sample:android-app")
