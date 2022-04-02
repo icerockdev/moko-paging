@@ -11,17 +11,22 @@ buildscript {
     }
 
     dependencies {
-        classpath("dev.icerock.moko:units-generator:0.6.0")
-
-        classpath(":paging-build-logic")
+        classpath(libs.kotlinGradlePlugin)
+        classpath(libs.androidGradlePlugin)
+        classpath(libs.googleServicesGradlePlugin)
+        classpath(libs.mokoGradlePlugin)
+        classpath(libs.mobileMultiplatformGradlePlugin)
+        classpath(libs.kotlinSerializationGradlePlugin)
+        classpath(libs.mokoUnitsGeneratorGradlePlugin)
     }
 }
 
+apply(plugin = "dev.icerock.moko.gradle.publication.nexus")
+val mokoVersion = libs.versions.mokoPagingVersion.get()
 allprojects {
-    plugins.withId("org.gradle.maven-publish") {
-        group = "dev.icerock.moko"
-        version = libs.versions.mokoPagingVersion.get()
-    }
+    group = "dev.icerock.moko"
+    version = mokoVersion
+
     configurations.configureEach {
         resolutionStrategy {
             val coroutines: MinimalExternalModuleDependency = rootProject.libs.coroutines.get()

@@ -6,13 +6,12 @@ package dev.icerock.moko.paging
 
 import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.map
-import dev.icerock.moko.mvvm.livedata.mergeWith
+import dev.icerock.moko.mvvm.livedata.mediatorOf
 
 fun <T> LiveData<List<T>>.withLoadingItem(
     loading: LiveData<Boolean>,
     itemFactory: () -> T
-):
-        LiveData<List<T>> = mergeWith(loading) { items, nextPageLoading ->
+): LiveData<List<T>> = mediatorOf(this, loading) { items, nextPageLoading ->
     if (nextPageLoading) {
         items + itemFactory()
     } else {
@@ -20,7 +19,8 @@ fun <T> LiveData<List<T>>.withLoadingItem(
     }
 }
 
-fun <T> LiveData<List<T>>.withReachEndNotifier(action: (Int) -> Unit):
-        LiveData<ReachEndNotifierList<T>> = map {
-    it.withReachEndNotifier(action)
+fun <T> LiveData<List<T>>.withReachEndNotifier(
+    action: (Int) -> Unit
+): LiveData<ReachEndNotifierList<T>> = map { list ->
+    list.withReachEndNotifier(action)
 }
