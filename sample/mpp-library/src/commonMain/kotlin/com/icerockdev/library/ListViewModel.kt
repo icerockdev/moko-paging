@@ -9,7 +9,7 @@ import dev.icerock.moko.mvvm.livedata.LiveData
 import dev.icerock.moko.mvvm.livedata.dataTransform
 import dev.icerock.moko.mvvm.livedata.errorTransform
 import dev.icerock.moko.mvvm.livedata.map
-import dev.icerock.moko.mvvm.livedata.mergeWith
+import dev.icerock.moko.mvvm.livedata.mediatorOf
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import dev.icerock.moko.paging.IdComparator
 import dev.icerock.moko.paging.IdEntity
@@ -39,14 +39,17 @@ class ListViewModel(
     val isRefreshing: LiveData<Boolean> = pagination.refreshLoading
     val state: LiveData<ResourceState<List<TableUnitItem>, String>> = pagination.state
         .dataTransform {
-            map { productList ->
-                productList.map { product ->
-                    unitsFactory.createProductUnit(
-                        id = product.id,
-                        title = product.title
-                    )
-                }
-            }.mergeWith(pagination.nextPageLoading) { items, nextPageLoading ->
+            mediatorOf(
+                this.map { productList ->
+                    productList.map { product ->
+                        unitsFactory.createProductUnit(
+                            id = product.id,
+                            title = product.title
+                        )
+                    }
+                },
+                pagination.nextPageLoading
+            ) { items, nextPageLoading ->
                 if (nextPageLoading) {
                     items.plus(unitsFactory.createLoading())
                 } else {

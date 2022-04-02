@@ -21,6 +21,7 @@ coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version
 ktorClient = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientVersion" }
 mokoResources = { module = "dev.icerock.moko:resources", version.ref = "mokoResourcesVersion" }
 mokoUnits = { module = "dev.icerock.moko:units", version.ref = "mokoUnitsVersion" }
+mokoUnitsDataBinding = { module = "dev.icerock.moko:units-databinding", version.ref = "mokoUnitsVersion" }
 mokoMvvmLiveData = { module = "dev.icerock.moko:mvvm-livedata", version.ref = "mokoMvvmVersion" }
 mokoMvvmState = { module = "dev.icerock.moko:mvvm-state", version.ref = "mokoMvvmVersion" }
 kotlinTestJUnit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlinVersion" }

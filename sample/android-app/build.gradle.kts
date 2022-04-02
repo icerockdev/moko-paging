@@ -3,12 +3,9 @@
  */
 
 plugins {
-    id("com.android.application")
-    id("dev.icerock.moko.gradle.android.base")
-    id("dev.icerock.moko.gradle.detekt")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    id("dev.icerock.moko.gradle.android.application")
     id("dev.icerock.mobile.multiplatform-units")
+    id("kotlin-kapt")
 }
 
 android {
@@ -29,6 +26,7 @@ dependencies {
     implementation(libs.recyclerView)
     implementation(libs.lifecycle)
     implementation(libs.swipeRefreshLayout)
+    implementation(libs.mokoUnitsDataBinding)
 
     implementation(projects.sample.mppLibrary)
 }

@@ -21,11 +21,12 @@ buildscript {
     }
 }
 
+apply(plugin = "dev.icerock.moko.gradle.publication.nexus")
+val mokoVersion = libs.versions.mokoPagingVersion.get()
 allprojects {
-    plugins.withId("org.gradle.maven-publish") {
-        group = "dev.icerock.moko"
-        version = libs.versions.mokoPagingVersion.get()
-    }
+    group = "dev.icerock.moko"
+    version = mokoVersion
+
     configurations.configureEach {
         resolutionStrategy {
             val coroutines: MinimalExternalModuleDependency = rootProject.libs.coroutines.get()
