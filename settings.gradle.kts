@@ -9,16 +9,8 @@ dependencyResolutionManagement {
     repositories {
         mavenCentral()
         google()
-
-        jcenter {
-            content {
-                includeGroup("org.jetbrains.kotlinx")
-            }
-        }
     }
 }
-
-includeBuild("paging-build-logic")
 
 include(":paging")
 include(":sample:android-app")
