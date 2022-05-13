@@ -8,6 +8,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respondOk
 import io.ktor.client.request.get
+import io.ktor.client.statement.*
 import io.ktor.http.fullPath
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
@@ -46,7 +47,10 @@ class IntegrationTests : BaseTestsClass() {
             parentScope = this,
             dataSource = LambdaPagedListDataSource {
                 println("start load new page with $it")
-                val randomJoke: String = httpClient.get("http://api.icndb.com/jokes/random")
+                val randomJoke: String = httpClient
+                    .get("http://api.icndb.com/jokes/random")
+                    .bodyAsText()
+
                 println("respond new item $randomJoke")
                 listOf(randomJoke)
             },
@@ -84,7 +88,10 @@ class IntegrationTests : BaseTestsClass() {
             parentScope = this,
             dataSource = LambdaPagedListDataSource {
                 println("start load new page with $it")
-                val randomJoke: String = httpClient.get("http://api.icndb.com/jokes/random")
+                val randomJoke: String = httpClient
+                    .get("http://api.icndb.com/jokes/random")
+                    .bodyAsText()
+
                 println("respond new item $randomJoke")
                 listOf(randomJoke)
             },
@@ -131,7 +138,10 @@ class IntegrationTests : BaseTestsClass() {
                     parentScope = this,
                     dataSource = LambdaPagedListDataSource {
                         println("start load new page with $it")
-                        val randomJoke: String = httpClient.get("http://api.icndb.com/jokes/random")
+                        val randomJoke: String = httpClient
+                            .get("http://api.icndb.com/jokes/random")
+                            .bodyAsText()
+
                         println("respond new item $randomJoke")
                         listOf(randomJoke)
                     },
