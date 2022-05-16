@@ -18,7 +18,6 @@ dependencies {
     commonMainApi(libs.mokoMvvmLiveData)
     commonMainApi(libs.mokoMvvmState)
     commonMainApi(libs.ktorClientMock)
-    androidMainImplementation(libs.appCompat)
 
     commonTestImplementation(libs.kotlinTestJUnit)
     androidTestImplementation(libs.androidCoreTesting)
