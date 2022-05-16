@@ -9,6 +9,10 @@ plugins {
     id("dev.icerock.moko.gradle.detekt")
 }
 
+kotlin {
+  jvm()
+}
+
 dependencies {
     commonMainImplementation(libs.coroutines)
     commonMainApi(libs.mokoMvvmLiveData)
