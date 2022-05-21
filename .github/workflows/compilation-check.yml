@@ -16,9 +16,23 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: Gradle Build Action
+        uses: gradle/gradle-build-action@v2.1.5
       - name: Check runtime
         run: ./gradlew build publishToMavenLocal syncMultiPlatformLibraryDebugFrameworkIosX64
       - name: Install pods
         run: cd sample/ios-app && pod install
       - name: build ios sample
         run: cd sample/ios-app && set -o pipefail && xcodebuild -scheme TestProj -workspace TestProj.xcworkspace -configuration Debug build CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+      - name: "Comment build scan url"
+        uses: actions/github-script@v5
+        if: github.event_name == 'pull_request' && failure()
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '❌ ${{ github.workflow }} failed: ${{ steps.gradle.outputs.build-scan-url }}'
+            })
