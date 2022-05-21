@@ -58,7 +58,7 @@ private class Expectation<T> {
     }
 }
 
-@UseExperimental(InternalCoroutinesApi::class)
+@OptIn(InternalCoroutinesApi::class)
 private object MainRunLoopDispatcher : CoroutineDispatcher(), Delay {
     override fun dispatch(context: CoroutineContext, block: Runnable) {
         NSRunLoop.mainRunLoop.performBlock {

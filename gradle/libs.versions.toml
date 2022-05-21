@@ -1,16 +1,16 @@
 [versions]
-kotlinVersion = "1.6.10"
+kotlinVersion = "1.6.20"
 androidAppCompatVersion = "1.2.0"
 androidLifecycleVersion = "2.1.0"
 androidCoreTestingVersion = "2.1.0"
 recyclerViewVersion = "1.1.0"
 swipeRefreshLayoutVersion = "1.1.0"
-ktorClientVersion = "1.6.7"
+ktorClientVersion = "2.0.0"
 coroutinesVersion = "1.6.0-native-mt"
 mokoMvvmVersion = "0.12.0"
 mokoResourcesVersion = "0.18.0"
 mokoUnitsVersion = "0.8.0"
-mokoPagingVersion = "0.6.0"
+mokoPagingVersion = "0.7.0"
 
 [libraries]
 appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidAppCompatVersion" }
