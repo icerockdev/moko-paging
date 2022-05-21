@@ -155,7 +155,6 @@ class Pagination<Item>(
             // notify
             refreshListener(Result.success(items))
         } catch (error: Exception) {
-            mStateStorage.value = ResourceState.Failed(error)
             // flag
             mRefreshLoading.value = false
             // notify
