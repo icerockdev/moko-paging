@@ -17,10 +17,10 @@ dependencies {
     commonMainImplementation(libs.coroutines)
     commonMainApi(libs.mokoMvvmLiveData)
     commonMainApi(libs.mokoMvvmState)
-    commonMainApi(libs.ktorClientMock)
 
     commonTestImplementation(libs.kotlinTestJUnit)
     androidTestImplementation(libs.androidCoreTesting)
     commonTestImplementation(libs.ktorClient)
+    commonTestImplementation(libs.ktorClientMock)
     iosX64TestImplementation(libs.coroutines)
 }

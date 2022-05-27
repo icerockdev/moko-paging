@@ -10,7 +10,7 @@ coroutinesVersion = "1.6.0-native-mt"
 mokoMvvmVersion = "0.12.0"
 mokoResourcesVersion = "0.18.0"
 mokoUnitsVersion = "0.8.0"
-mokoPagingVersion = "0.7.0"
+mokoPagingVersion = "0.7.1"
 
 [libraries]
 appCompat = { module = "androidx.appcompat:appcompat", version.ref = "androidAppCompatVersion" }
