@@ -16,7 +16,7 @@ fun <T, E> List<T>.asState(): ResourceState<List<T>, E> = if (this.isEmpty()) {
     ResourceState.Data(this)
 }
 
-fun <T, E: Throwable> E.asState(): ResourceState<List<T>, E> =
+fun <T, E : Throwable> E.asState(): ResourceState<List<T>, E> =
     ResourceState.Error(this)
 
 fun <T, E> List<T>?.asState(whenNull: () -> ResourceState<List<T>, E>): ResourceState<List<T>, E> =

@@ -44,7 +44,6 @@ class Pagination<Item>(
     override fun dataValue(): List<Item>? =
         _state.value.dataValue()
 
-
     override fun saveState(items: List<Item>) {
         _state.value = items.asState()
     }

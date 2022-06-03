@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 IceRock MAG Inc. Use of this source code is governed by the Apache 2.0 license.
+ * Copyright 2022 IceRock MAG Inc. Use of this source code is governed by the Apache 2.0 license.
  */
 
 package dev.icerock.moko.paging.core
@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlin.coroutines.CoroutineContext
 
+@Suppress("TooManyFunctions")
 abstract class Pagination<Item>(
     parentScope: CoroutineScope,
     private val dataSource: PagedListDataSource<Item>,
@@ -161,5 +162,3 @@ abstract class Pagination<Item>(
         listMutex.unlock()
     }
 }
-
-
