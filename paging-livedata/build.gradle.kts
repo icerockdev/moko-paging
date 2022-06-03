@@ -4,24 +4,20 @@
 
 plugins {
     id("dev.icerock.moko.gradle.multiplatform.mobile")
-    id("dev.icerock.mobile.multiplatform.ios-framework")
+    id("dev.icerock.moko.gradle.publication")
+    id("dev.icerock.moko.gradle.stub.javadoc")
     id("dev.icerock.moko.gradle.detekt")
+}
+
+kotlin {
+  jvm()
 }
 
 dependencies {
     commonMainImplementation(libs.coroutines)
-
-    commonMainApi(projects.pagingLivedata)
-    commonMainApi(libs.mokoUnits)
     commonMainApi(libs.mokoMvvmLiveData)
     commonMainApi(libs.mokoMvvmState)
-    commonMainApi(libs.mokoResources)
+    commonMainApi(projects.pagingCore)
 
-    androidMainImplementation(libs.lifecycle)
-}
-
-framework {
-    export(libs.mokoUnits)
-    export(libs.mokoMvvmLiveData)
-    export(libs.mokoMvvmState)
+    commonTestImplementation(projects.pagingTest)
 }

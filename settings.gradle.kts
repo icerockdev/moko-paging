@@ -24,6 +24,10 @@ gradleEnterprise {
     }
 }
 
-include(":paging")
+include(":paging-core")
+include(":paging-flow")
+include(":paging-livedata")
+include(":paging-state")
+include(":paging-test")
 include(":sample:android-app")
 include(":sample:mpp-library")
