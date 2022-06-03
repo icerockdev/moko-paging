@@ -14,5 +14,5 @@ kotlin {
 }
 
 dependencies {
-    commonMainImplementation(libs.coroutines)
+    commonMainApi(libs.coroutines)
 }

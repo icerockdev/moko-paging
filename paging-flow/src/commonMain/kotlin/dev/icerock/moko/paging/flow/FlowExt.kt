@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 IceRock MAG Inc. Use of this source code is governed by the Apache 2.0 license.
+ * Copyright 2022 IceRock MAG Inc. Use of this source code is governed by the Apache 2.0 license.
  */
 
 package dev.icerock.moko.paging.flow
@@ -35,17 +35,18 @@ fun <T> Flow<List<T>>.stateWithLoadingItem(
     parentScope: CoroutineScope,
     loading: Flow<Boolean>,
     itemFactory: () -> T
-): StateFlow<List<T>> = combine(this, loading) { items, nextPageLoading ->
-    if (nextPageLoading) {
-        items + itemFactory()
-    } else {
-        items
-    }
-}.stateIn(parentScope, SharingStarted.Lazily, emptyList())
+): StateFlow<List<T>> = this.withLoadingItem(
+    loading = loading,
+    itemFactory = itemFactory
+).stateIn(parentScope, SharingStarted.Lazily, emptyList())
 
 fun <T> Flow<List<T>>.stateWithReachEndNotifier(
     parentScope: CoroutineScope,
     action: (Int) -> Unit
-): StateFlow<ReachEndNotifierList<T>> = map { list ->
-    list.withReachEndNotifier(action)
-}.stateIn(parentScope, SharingStarted.Lazily, ReachEndNotifierList(emptyList(), action))
+): StateFlow<ReachEndNotifierList<T>> =
+    this.withReachEndNotifier(action)
+        .stateIn(
+            parentScope,
+            SharingStarted.Lazily,
+            ReachEndNotifierList(emptyList(), action)
+        )

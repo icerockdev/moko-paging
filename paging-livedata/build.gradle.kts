@@ -14,7 +14,6 @@ kotlin {
 }
 
 dependencies {
-    commonMainImplementation(libs.coroutines)
     commonMainApi(libs.mokoMvvmLiveData)
     commonMainApi(libs.mokoMvvmState)
     commonMainApi(projects.pagingCore)

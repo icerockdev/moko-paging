@@ -36,7 +36,7 @@ class PaginationTest : BaseTestsClass() {
         pagination.loadFirstPageSuspend()
 
         assertTrue {
-            pagination.state.value.isSuccess()
+            pagination.state.value.isData
         }
         assertTrue {
             pagination.state.value.dataValue()!!.compareWith(listOf(0, 1, 2))

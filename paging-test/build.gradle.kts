@@ -14,11 +14,12 @@ kotlin {
 }
 
 dependencies {
-    commonMainApi(libs.coroutines)
+    androidMainApi(libs.androidCoreTesting)
+
     commonMainApi(projects.pagingCore)
     commonMainApi(libs.kotlinTestJUnit)
-    androidMainApi(libs.androidCoreTesting)
     commonMainApi(libs.ktorClient)
     commonMainApi(libs.ktorClientMock)
+
     iosX64MainApi(libs.coroutines)
 }
