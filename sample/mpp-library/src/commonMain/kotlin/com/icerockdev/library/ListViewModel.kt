@@ -11,10 +11,10 @@ import dev.icerock.moko.mvvm.livedata.errorTransform
 import dev.icerock.moko.mvvm.livedata.map
 import dev.icerock.moko.mvvm.livedata.mediatorOf
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import dev.icerock.moko.paging.IdComparator
-import dev.icerock.moko.paging.IdEntity
-import dev.icerock.moko.paging.LambdaPagedListDataSource
-import dev.icerock.moko.paging.Pagination
+import dev.icerock.moko.paging.core.IdComparator
+import dev.icerock.moko.paging.core.IdEntity
+import dev.icerock.moko.paging.core.LambdaPagedListDataSource
+import dev.icerock.moko.paging.livedata.Pagination
 import dev.icerock.moko.units.TableUnitItem
 import kotlinx.coroutines.delay
 

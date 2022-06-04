@@ -11,7 +11,7 @@ plugins {
 dependencies {
     commonMainImplementation(libs.coroutines)
 
-    commonMainApi(projects.paging)
+    commonMainApi(projects.pagingLivedata)
     commonMainApi(libs.mokoUnits)
     commonMainApi(libs.mokoMvvmLiveData)
     commonMainApi(libs.mokoMvvmState)
