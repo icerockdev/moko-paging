@@ -28,8 +28,8 @@ actual fun <T> runTest(block: suspend CoroutineScope.() -> T): T {
         expectation.fulfill(kotlin.runCatching { block.invoke(this) })
     }
 
-    val result: Result<T>? = expectation.wait()
-    if (result == null) throw RuntimeException("runBlocking failed")
+    val result: Result<T> = expectation.wait()
+        ?: throw RuntimeException("runBlocking failed")
 
     return result.getOrThrow()
 }

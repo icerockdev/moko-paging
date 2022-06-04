@@ -9,17 +9,12 @@ plugins {
     id("dev.icerock.moko.gradle.detekt")
 }
 
-kotlin {
-    jvm()
-}
-
 dependencies {
-    androidMainApi(libs.androidCoreTesting)
-
     commonMainApi(projects.pagingCore)
     commonMainApi(libs.kotlinTestJUnit)
     commonMainApi(libs.ktorClient)
     commonMainApi(libs.ktorClientMock)
 
-    iosX64MainApi(libs.coroutines)
+    androidMainApi(libs.androidCoreTesting)
+    iosMainApi(libs.coroutines)
 }

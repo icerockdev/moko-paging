@@ -46,7 +46,7 @@ abstract class Pagination<Item>(
         launch { setDataSuspend(items) }
     }
 
-    protected abstract fun dataValue(): List<Item>?
+    abstract fun dataValue(): List<Item>?
     protected abstract fun saveState(items: List<Item>)
     protected abstract fun saveStateNullIsEmpty(items: List<Item>?)
     protected abstract fun saveStateNullIsLoading(items: List<Item>?)

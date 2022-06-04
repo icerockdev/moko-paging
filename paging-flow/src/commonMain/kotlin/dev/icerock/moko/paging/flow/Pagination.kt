@@ -4,13 +4,14 @@
 
 package dev.icerock.moko.paging.flow
 
+import dev.icerock.moko.mvvm.flow.CStateFlow
+import dev.icerock.moko.mvvm.flow.cStateFlow
 import dev.icerock.moko.paging.core.PagedListDataSource
 import dev.icerock.moko.paging.core.Pagination
 import dev.icerock.moko.paging.state.ResourceState
 import dev.icerock.moko.paging.state.asState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 typealias PaginationState<Item> = ResourceState<List<Item>, Throwable>
 
@@ -32,14 +33,14 @@ class Pagination<Item>(
     private val _state: MutableStateFlow<PaginationState<Item>> =
         MutableStateFlow(initValue.asStateNullIsLoading())
 
-    val state: StateFlow<ResourceState<List<Item>, Throwable>>
-        get() = _state
+    val state: CStateFlow<ResourceState<List<Item>, Throwable>>
+        get() = _state.cStateFlow()
 
-    val refreshLoading: StateFlow<Boolean>
-        get() = mRefreshLoading
+    val refreshLoading: CStateFlow<Boolean>
+        get() = mRefreshLoading.cStateFlow()
 
-    val nextPageLoading: StateFlow<Boolean>
-        get() = mNextPageLoading
+    val nextPageLoading: CStateFlow<Boolean>
+        get() = mNextPageLoading.cStateFlow()
 
     override fun dataValue(): List<Item>? =
         _state.value.dataValue()

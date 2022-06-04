@@ -8,7 +8,3 @@ plugins {
     id("dev.icerock.moko.gradle.stub.javadoc")
     id("dev.icerock.moko.gradle.detekt")
 }
-
-kotlin {
-    jvm()
-}
