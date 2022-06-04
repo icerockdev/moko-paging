@@ -18,7 +18,7 @@ This is a Kotlin MultiPlatform library that contains pagination logic for kotlin
 - **Pagination** implements pagination logic for the data from abstract `PagedListDataSource`.
 - Managing a data loading process using **Pagination** asynchronous functions: `loadFirstPage`, `loadNextPage`,
 `refresh` or their duplicates with `suspend` modifier.
-- Observing states of **Pagination** using `LiveData` from **moko-mvvm**.
+- Observing states of **Pagination** using `LiveData` from **moko-mvvm** or `Flow` from **kotlinx.coroutines**.
 
 ## Requirements
 - Gradle version 6.8+
@@ -38,11 +38,17 @@ allprojects {
 project build.gradle
 ```groovy
 dependencies {
-    commonMainApi("dev.icerock.moko:paging:0.7.1")
+    commonMainApi("dev.icerock.moko:paging-core:0.8.0")
+    commonMainApi("dev.icerock.moko:paging-livedata:0.8.0")
+    commonMainApi("dev.icerock.moko:paging-flow:0.8.0")
+    commonMainApi("dev.icerock.moko:paging-state:0.8.0")
+    commonMainApi("dev.icerock.moko:paging-test:0.8.0")
 }
 ```
 
 ## Usage
+
+### LiveData
 
 You can use **Pagination** in `commonMain` sourceset.
 
@@ -110,11 +116,35 @@ pagination.refreshLoading.addObserver { isRefreshing: Boolean ->
 }
 ```
 
+### Flow
+
+```kotlin
+// Observing the state of the pagination
+pagination.state
+    .onEach { /* ... */ }
+    .launchIn(coroutineScope)
+
+// Observing the next page loading process
+pagination.nextPageLoading
+    .onEach { /* ... */ }
+    .launchIn(coroutineScope)
+
+// Observing the refresh process
+pagination.refreshLoading
+    .onEach { /* ... */ }
+    .launchIn(coroutineScope)
+```
+
+
 ## Samples
-Please see more examples in the [sample directory](sample).
+Please see more examples in the [sample directory](sample) or [sample-declarative-ui](sample-declarative-ui)
 
 ## Set Up Locally 
-- The [paging directory](paging) contains the `paging` library;
+- The [paging-core directory](paging-core) contains the core - pagination logic & data sources;
+- The [paging-livedata directory](paging-livedata) contains implementation of the Pagination using `moko-mvvv-livedata`;
+- The [paging-flow directory](paging-flow) contains implementation of the Pagination using `kotlinx.coroutines`;
+- The [paging-state directory](paging-state) contains a set of code for working with the state of resources;
+- The [paging-test directory](paging-test) contains a set of tests for pagination;
 - The [sample directory](sample) contains sample apps for Android and iOS; plus the mpp-library connected to the apps.
 
 ## Contributing
