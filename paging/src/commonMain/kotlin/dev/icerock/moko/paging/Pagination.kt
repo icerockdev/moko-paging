@@ -11,6 +11,7 @@ import dev.icerock.moko.mvvm.livedata.readOnly
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlin.coroutines.CoroutineContext
@@ -86,26 +87,29 @@ class Pagination<Item>(
 
         @Suppress("TooGenericExceptionCaught")
         try {
-            loadNextPageDeferred = this.async {
-                val currentList = mStateStorage.value.dataValue()
-                    ?: throw IllegalStateException("Try to load next page when list is empty")
-                // load next page items
-                val items = dataSource.loadPage(currentList)
-                // remove already exist items
-                val newItems = items.filter { item ->
-                    val existsItem = currentList.firstOrNull { comparator.compare(item, it) == 0 }
-                    existsItem == null
+            loadNextPageDeferred = coroutineScope {
+                async {
+                    val currentList = mStateStorage.value.dataValue()
+                        ?: throw IllegalStateException("Try to load next page when list is empty")
+                    // load next page items
+                    val items = dataSource.loadPage(currentList)
+                    // remove already exist items
+                    val newItems = items.filter { item ->
+                        val existsItem =
+                            currentList.firstOrNull { comparator.compare(item, it) == 0 }
+                        existsItem == null
+                    }
+                    // append new items to current list
+                    val newList = currentList.plus(newItems)
+                    // mark end of list if no new items
+                    if (newItems.isEmpty()) {
+                        mEndOfList.value = true
+                    } else {
+                        // save
+                        mStateStorage.value = newList.asState()
+                    }
+                    newList
                 }
-                // append new items to current list
-                val newList = currentList.plus(newItems)
-                // mark end of list if no new items
-                if (newItems.isEmpty()) {
-                    mEndOfList.value = true
-                } else {
-                    // save
-                    mStateStorage.value = newList.asState()
-                }
-                newList
             }
             val newList = loadNextPageDeferred!!.await()
 
